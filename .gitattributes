@@ -1,0 +1,16 @@
+# 行尾規則：一律 LF（含工作目錄）。
+# 這個 repo 裡沒有 .cmd/.bat，所以不需要 CRLF 例外 ——
+# 若日後加了批次檔，記得補 `*.cmd text eol=crlf`：LF 行尾會讓 cmd.exe 的
+# goto 標籤與括號區塊出錯，而錯誤訊息不會提到行尾。
+*.md   text eol=lf
+*.py   text eol=lf
+*.mjs  text eol=lf
+*.js   text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+.gitignore  text eol=lf
+.gitattributes text eol=lf
+
+# 二進位：明確標記，免得日後有人加了 `* text=auto` 之類的規則把它當文字處理。
+*.png  binary
+*.pptx binary

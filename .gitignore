@@ -1,0 +1,43 @@
+# 個人層的 Claude Code 權限記錄，不該帶給別人。
+# 注意：core/starter/.claude/settings.json 是要進版控的（那是要複製出去的內容本體）。
+.claude/settings.local.json
+core/starter/.claude/settings.local.json
+
+# ---- Obsidian ----
+# 範例 vault 的個人工作區狀態；其餘 .obsidian/ 設定要進版控（連結格式靠它一致）。
+examples/.obsidian/workspace.json
+examples/.obsidian/workspace-mobile.json
+examples/.obsidian/cache
+
+# repo 根目錄整個當 vault 開的話會產生這個 —— 那是純個人的瀏覽狀態，
+# 跟「四份文件的連結格式」無關（那份設定在 core/starter/doc/.obsidian/）。
+/.obsidian/
+
+# ---- 編輯器 / IDE ----
+.vscode/
+.idea/
+*.swp
+*~
+
+# ---- Windows / macOS ----
+Thumbs.db
+desktop.ini
+.DS_Store
+._*
+
+# ---- Python ----
+# 出片腳本要的 python-pptx 裝在這裡；純本機環境，不該進版控。
+.venv/
+# 跑過 core/工具/連結檢查.py 或匯入任何一支腳本就會產生。
+__pycache__/
+*.pyc
+
+# ---- 簡報工作資料夾 ----
+# 這是「你自己的簡報工作資料夾」，不是移植包的一部分（見 extras/簡報/README.md）。
+# 大綱、pptx、HTML、archify 產出都在裡面，體積大且屬於個人工作內容。
+# 要拿某一份當範例交出去的話，複製到 examples/ 底下，不要解除這條忽略。
+#
+# ⚠️ 開頭的斜線不能省。沒有斜線的 `簡報/` 會比對**任何層級**的同名資料夾 ——
+# 那會連 extras/簡報/（移植包的一部分）一起擋掉，而且不會有任何工具報錯：
+# clone 下來只是少了幾個檔，連結靜靜地 404。
+/簡報/

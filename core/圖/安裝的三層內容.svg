@@ -1,0 +1,63 @@
+<svg viewBox="0 0 1200 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d"
+     font-family="'Noto Sans TC','Microsoft JhengHei','PingFang TC','Heiti TC',system-ui,sans-serif">
+  <title id="t">安裝：把 core/starter/ 的內容複製到專案根目錄，分成三層看</title>
+  <desc id="d">從 core/starter/ 複製三層內容到專案根目錄：正本（AGENTS.md 與 .agents/，兩種工具共用）、接線（CLAUDE.md、.claude/、.codex/）、其餘（doc/ 四份骨架、.gitignore、README 骨架）。複製後改四處，git commit，再跑三個驗證。</desc>
+  <defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="rgba(45,49,66,0.05)" stroke-width="1"/></pattern><marker id="a-flow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#12996b"/></marker><marker id="a-ink" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#7b8494"/></marker><marker id="a-check" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#7a4ff0"/></marker><marker id="a-guard" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#e0355f"/></marker></defs>
+  <rect width="1200" height="620" fill="#fafaf8"/>
+  <rect width="1200" height="620" fill="url(#grid)"/>
+
+  <!-- 區域 -->
+  <rect x="40" y="70" width="470" height="400" rx="10" fill="rgba(240,150,40,0.045)" stroke="#e0963a" stroke-width="1.2" stroke-dasharray="7,5"/>
+  <rect x="54" y="61" width="202" height="18" rx="3" fill="#fafaf8"/>
+  <text x="62" y="75" fill="#b86a12" font-size="12" font-weight="600">core/starter/（要複製的來源）</text>
+  <rect x="690" y="70" width="470" height="400" rx="10" fill="rgba(45,49,66,0.03)" stroke="#7b8494" stroke-width="1.2" stroke-dasharray="7,5"/>
+  <rect x="704" y="61" width="172" height="18" rx="3" fill="#fafaf8"/>
+  <text x="712" y="75" fill="#5d6675" font-size="12" font-weight="600">你的專案根目錄（複製之後）</text>
+
+  <!-- 連接線 -->
+  <path d="M490,150 H710" fill="none" stroke="#12996b" stroke-width="2" marker-end="url(#a-flow)"/>
+  <path d="M490,274 H710" fill="none" stroke="#12996b" stroke-width="2" marker-end="url(#a-flow)"/>
+  <path d="M490,398 H710" fill="none" stroke="#12996b" stroke-width="2" marker-end="url(#a-flow)"/>
+  <rect x="558" y="126" width="84" height="20" rx="3" fill="#fafaf8"/>
+  <text x="600" y="140" fill="#0d7a55" font-size="12" text-anchor="middle">複製「內容」</text>
+  <path d="M415,535 H475" fill="none" stroke="#7b8494" stroke-width="1.5" marker-end="url(#a-ink)"/>
+  <path d="M605,535 H665" fill="none" stroke="#7b8494" stroke-width="1.5" marker-end="url(#a-ink)"/>
+  <path d="M835,535 H895" fill="none" stroke="#7b8494" stroke-width="1.5" marker-end="url(#a-ink)"/>
+
+  <!-- 節點與文字 -->
+  <rect x="60" y="100" width="430" height="100" rx="7" fill="#dcf5ea" stroke="#12996b" stroke-width="1.5"/>
+  <text x="275.0" y="138" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">① 正本 · 兩種工具共用</text>
+  <text x="275.0" y="158" fill="#3d6b5a" font-size="12" text-anchor="middle">AGENTS.md　給 AI 的守則</text>
+  <text x="275.0" y="178" fill="#3d6b5a" font-size="12" text-anchor="middle">.agents/　收工檢查、規格護欄、doc-sync</text>
+  <rect x="710" y="100" width="430" height="100" rx="7" fill="#dcf5ea" stroke="#12996b" stroke-width="1.5"/>
+  <text x="925.0" y="138" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">① 正本</text>
+  <text x="925.0" y="158" fill="#3d6b5a" font-size="12" text-anchor="middle">要改三處：</text>
+  <text x="925.0" y="178" fill="#3d6b5a" font-size="12" text-anchor="middle">觸發清單、守則的專案名與負責人、路由表</text>
+  <rect x="60" y="224" width="430" height="100" rx="7" fill="#eceef2" stroke="#6b7384" stroke-width="1.5"/>
+  <text x="275.0" y="262" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">② 接線 · 薄薄一層</text>
+  <text x="275.0" y="282" fill="#5d6675" font-size="12" text-anchor="middle">CLAUDE.md · .claude/　接到 Claude Code</text>
+  <text x="275.0" y="302" fill="#5d6675" font-size="12" text-anchor="middle">.codex/　接到 Codex CLI</text>
+  <rect x="710" y="224" width="430" height="100" rx="7" fill="#eceef2" stroke="#6b7384" stroke-width="1.5"/>
+  <text x="925.0" y="262" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">② 接線</text>
+  <text x="925.0" y="282" fill="#5d6675" font-size="12" text-anchor="middle">只裝一種工具也成立</text>
+  <text x="925.0" y="302" fill="#5d6675" font-size="12" text-anchor="middle">用不到的那邊留著無害</text>
+  <rect x="60" y="348" width="430" height="100" rx="7" fill="#ece6fd" stroke="#7a4ff0" stroke-width="1.5"/>
+  <text x="275.0" y="386" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">③ 其餘</text>
+  <text x="275.0" y="406" fill="#5a45a0" font-size="12" text-anchor="middle">doc/　四份文件的骨架</text>
+  <text x="275.0" y="426" fill="#5a45a0" font-size="12" text-anchor="middle">.gitignore · README.骨架.md</text>
+  <rect x="710" y="348" width="430" height="100" rx="7" fill="#ece6fd" stroke="#7a4ff0" stroke-width="1.5"/>
+  <text x="925.0" y="386" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">③ 其餘</text>
+  <text x="925.0" y="406" fill="#5a45a0" font-size="12" text-anchor="middle">要改一處：DESIGN 開頭寫明誰有裁決權</text>
+  <text x="925.0" y="426" fill="#5a45a0" font-size="12" text-anchor="middle">doc/ 目錄名不能改 · README 骨架用完刪掉</text>
+  <text x="600" y="300" fill="#8a909c" font-size="11.5" font-weight="400" text-anchor="middle">starter 這個名字</text>
+  <text x="600" y="317" fill="#8a909c" font-size="11.5" font-weight="400" text-anchor="middle">不會進你的專案</text>
+  <rect x="115" y="512" width="300" height="46" rx="7" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+  <text x="265.0" y="541" fill="#23283a" font-size="13.5" font-weight="700" text-anchor="middle" font-family="ui-monospace,'Cascadia Mono',Consolas,'Noto Sans TC','Microsoft JhengHei',monospace">cp -r core/starter/. &lt;專案路徑&gt;/</text>
+  <rect x="475" y="512" width="130" height="46" rx="7" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+  <text x="540.0" y="541" fill="#23283a" font-size="13.5" font-weight="700" text-anchor="middle">改四處</text>
+  <rect x="665" y="512" width="170" height="46" rx="7" fill="#fde4ea" stroke="#e0355f" stroke-width="1.5"/>
+  <text x="750.0" y="541" fill="#23283a" font-size="13.5" font-weight="700" text-anchor="middle" font-family="ui-monospace,'Cascadia Mono',Consolas,'Noto Sans TC','Microsoft JhengHei',monospace">git commit</text>
+  <rect x="895" y="512" width="150" height="46" rx="7" fill="#dcf5ea" stroke="#12996b" stroke-width="1.5"/>
+  <text x="970.0" y="541" fill="#23283a" font-size="13.5" font-weight="700" text-anchor="middle">跑三個驗證</text>
+  <text x="40" y="596" fill="#8a909c" font-size="11.5">git commit 不能省：未追蹤的 doc/ 在 git status 裡恆為「有異動」，收工檢查會恆通過。第一次 commit 之後才真的開始擋。</text>
+</svg>

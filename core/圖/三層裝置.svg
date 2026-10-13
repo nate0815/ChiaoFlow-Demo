@@ -1,0 +1,156 @@
+<svg viewBox="0 0 1200 786" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d"
+     font-family="'Noto Sans TC','Microsoft JhengHei','PingFang TC','Heiti TC',system-ui,sans-serif">
+  <title id="t">ChiaoFlow Core 裝起來之後：三層裝置圍著四份文件</title>
+  <desc id="d">使用者把工作交給 AI CLI（Claude Code 或 Codex CLI）。每輪結束時收工檢查讀 git 的異動清單，確認 DEVLOG 有沒有回填；沒回填就擋下。回填時叫用 doc-sync，先拿變動對規格正本 DESIGN，再照路由表寫進 PLAN、TECH 與 DEVLOG。DESIGN 的寫入另有護欄，要人授權才放行。</desc>
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="rgba(45,49,66,0.05)" stroke-width="1"/>
+    </pattern>
+    <marker id="a-flow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#12996b"/></marker>
+    <marker id="a-ink" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#7b8494"/></marker>
+    <marker id="a-check" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#7a4ff0"/></marker>
+    <marker id="a-guard" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#e0355f"/></marker>
+  </defs>
+
+  <rect width="1200" height="786" fill="#fafaf8"/>
+  <rect width="1200" height="786" fill="url(#grid)"/>
+
+  <!-- Zone: 專案 repo -->
+  <rect x="250" y="70" width="760" height="596" rx="10" fill="rgba(240,150,40,0.045)" stroke="#e0963a" stroke-width="1.2" stroke-dasharray="7,5"/>
+  <rect x="264" y="61" width="226" height="18" rx="3" fill="#fafaf8"/>
+  <text x="272" y="75" fill="#b86a12" font-size="12" font-weight="600" letter-spacing="0.04em">專案 repo（複製 starter 進來的東西）</text>
+
+  <!-- Zone: 規格正本的護欄 -->
+  <rect x="270" y="426" width="210" height="224" rx="8" fill="rgba(224,53,95,0.03)" stroke="#e0355f" stroke-width="1.1" stroke-dasharray="5,4"/>
+  <rect x="282" y="417" width="138" height="18" rx="3" fill="#fbf6f1"/>
+  <text x="290" y="431" fill="#c22a51" font-size="12" font-weight="600">規格正本受護欄保護</text>
+
+  <!-- Connectors (behind nodes) -->
+  <!-- 使用者 → AI CLI -->
+  <line x1="200" y1="260" x2="290" y2="260" stroke="#12996b" stroke-width="2" marker-end="url(#a-flow)"/>
+  <!-- AI CLI → 收工檢查 -->
+  <path d="M480,248 H504 Q512,248 512,240 V142 Q512,134 520,134 H560" fill="none" stroke="#12996b" stroke-width="2" marker-end="url(#a-flow)"/>
+  <!-- AI CLI → doc-sync -->
+  <path d="M480,272 H504 Q512,272 512,280 V334 Q512,342 520,342 H560" fill="none" stroke="#7b8494" stroke-width="1.5" marker-end="url(#a-ink)"/>
+  <!-- 收工檢查 → git -->
+  <line x1="760" y1="122" x2="1040" y2="122" stroke="#7b8494" stroke-width="1.5" marker-end="url(#a-ink)"/>
+  <!-- 收工檢查 ⇢ DEVLOG：有沒有回填 -->
+  <path d="M760,148 H892 Q900,148 900,156 V470" fill="none" stroke="#7a4ff0" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#a-check)"/>
+  <!-- doc-sync → DEVLOG -->
+  <path d="M760,354 H842 Q850,354 850,362 V470" fill="none" stroke="#7b8494" stroke-width="1.5" marker-end="url(#a-ink)"/>
+  <!-- doc-sync → PLAN 與 TECH -->
+  <line x1="660" y1="388" x2="660" y2="470" stroke="#7b8494" stroke-width="1.5" marker-end="url(#a-ink)"/>
+  <!-- doc-sync ⇢ DESIGN：先對規格 -->
+  <path d="M560,370 H383 Q375,370 375,378 V470" fill="none" stroke="#e0355f" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#a-guard)"/>
+  <!-- 護欄 → DESIGN -->
+  <line x1="375" y1="570" x2="375" y2="542" stroke="#e0355f" stroke-width="1.5" marker-end="url(#a-guard)"/>
+  <!-- 使用者 ⇢ 護欄：人來授權 -->
+  <path d="M120,294 V596 Q120,604 128,604 H290" fill="none" stroke="#e0355f" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#a-guard)"/>
+
+  <!-- Connector labels -->
+  <g font-size="12" text-anchor="middle">
+    <rect x="212" y="234" width="66" height="18" rx="3" fill="#fafaf8"/>
+    <text x="245" y="247" fill="#0d7a55">交辦工作</text>
+
+    <rect x="466" y="180" width="92" height="20" rx="3" fill="#fbf6f1"/>
+    <text x="512" y="194" fill="#0d7a55">每輪結束觸發</text>
+
+    <rect x="474" y="296" width="76" height="20" rx="3" fill="#fbf6f1"/>
+    <text x="512" y="310" fill="#5d6675">回填時叫用</text>
+
+    <rect x="846" y="100" width="108" height="18" rx="3" fill="#fbf6f1"/>
+    <text x="900" y="113" fill="#5d6675">讀 git status</text>
+
+    <rect x="860" y="232" width="80" height="20" rx="3" fill="#fbf6f1"/>
+    <text x="900" y="246" fill="#6238d8">有沒有回填</text>
+
+    <rect x="818" y="406" width="64" height="20" rx="3" fill="#fbf6f1"/>
+    <text x="850" y="420" fill="#5d6675">一則一檔</text>
+
+    <rect x="614" y="418" width="92" height="20" rx="3" fill="#fbf6f1"/>
+    <text x="660" y="432" fill="#5d6675">照路由表回填</text>
+
+    <rect x="342" y="390" width="66" height="20" rx="3" fill="#fbf6f1"/>
+    <text x="375" y="404" fill="#c22a51">先對規格</text>
+
+    <rect x="87" y="420" width="66" height="20" rx="3" fill="#fafaf8"/>
+    <text x="120" y="434" fill="#c22a51">人來授權</text>
+  </g>
+
+  <!-- Nodes -->
+  <g text-anchor="middle">
+    <!-- 使用者 -->
+    <rect x="40" y="226" width="160" height="68" rx="7" fill="#eceef2" stroke="#6b7384" stroke-width="1.3"/>
+    <text x="120" y="256" fill="#23283a" font-size="15" font-weight="700">使用者</text>
+    <text x="120" y="277" fill="#5d6675" font-size="12">交辦工作、裁決規格</text>
+
+    <!-- AI CLI -->
+    <rect x="290" y="226" width="190" height="68" rx="7" fill="#dcf5ea" stroke="#12996b" stroke-width="1.5"/>
+    <text x="385" y="256" fill="#23283a" font-size="15" font-weight="700">Claude Code／Codex CLI</text>
+    <text x="385" y="277" fill="#3d6b5a" font-size="12">照 AGENTS.md 的守則工作</text>
+
+    <!-- 收工檢查 -->
+    <rect x="560" y="100" width="200" height="68" rx="7" fill="#dcf5ea" stroke="#12996b" stroke-width="1.5"/>
+    <text x="660" y="130" fill="#23283a" font-size="15" font-weight="700">收工檢查</text>
+    <text x="660" y="151" fill="#3d6b5a" font-size="12">Stop hook · 兩種工具共用一支</text>
+
+    <!-- git -->
+    <rect x="1040" y="88" width="130" height="68" rx="7" fill="#eceef2" stroke="#6b7384" stroke-width="1.3"/>
+    <text x="1105" y="118" fill="#23283a" font-size="15" font-weight="700">git</text>
+    <text x="1105" y="139" fill="#5d6675" font-size="12">異動清單</text>
+
+    <!-- doc-sync -->
+    <rect x="560" y="320" width="200" height="68" rx="7" fill="#dcf5ea" stroke="#12996b" stroke-width="1.5"/>
+    <text x="660" y="350" fill="#23283a" font-size="15" font-weight="700">doc-sync</text>
+    <text x="660" y="371" fill="#3d6b5a" font-size="12">回填流程、路由表、衝突升報</text>
+
+    <!-- DESIGN -->
+    <rect x="290" y="472" width="170" height="68" rx="7" fill="#ece6fd" stroke="#7a4ff0" stroke-width="1.5"/>
+    <text x="375" y="502" fill="#23283a" font-size="15" font-weight="700">DESIGN</text>
+    <text x="375" y="523" fill="#5a45a0" font-size="12">規格正本 · 唯一參照</text>
+
+    <!-- PLAN 與 TECH -->
+    <rect x="570" y="472" width="180" height="68" rx="7" fill="#ece6fd" stroke="#7a4ff0" stroke-width="1.5"/>
+    <text x="660" y="502" fill="#23283a" font-size="15" font-weight="700">PLAN 與 TECH</text>
+    <text x="660" y="523" fill="#5a45a0" font-size="12">理由與實作實況</text>
+
+    <!-- DEVLOG -->
+    <rect x="790" y="472" width="200" height="68" rx="7" fill="#ece6fd" stroke="#7a4ff0" stroke-width="1.5"/>
+    <text x="890" y="502" fill="#23283a" font-size="15" font-weight="700">DEVLOG 與三個資料夾</text>
+    <text x="890" y="523" fill="#5a45a0" font-size="12">只追加不改寫</text>
+
+    <!-- 寫入護欄 -->
+    <rect x="290" y="570" width="170" height="68" rx="7" fill="#fde4ea" stroke="#e0355f" stroke-width="1.5"/>
+    <text x="375" y="600" fill="#23283a" font-size="15" font-weight="700">寫入護欄</text>
+    <text x="375" y="621" fill="#a3294a" font-size="12">Claude 確認框 · Codex 解鎖檔</text>
+  </g>
+
+  <!-- Legend -->
+  <line x1="40" y1="706" x2="1160" y2="706" stroke="rgba(45,49,66,0.12)" stroke-width="1"/>
+  <g font-size="12" fill="#5d6675">
+    <rect x="40" y="728" width="18" height="12" rx="3" fill="#dcf5ea" stroke="#12996b" stroke-width="1.3"/>
+    <text x="66" y="739">裝置（觸發、流程）</text>
+
+    <rect x="210" y="728" width="18" height="12" rx="3" fill="#ece6fd" stroke="#7a4ff0" stroke-width="1.3"/>
+    <text x="236" y="739">四份文件</text>
+
+    <rect x="320" y="728" width="18" height="12" rx="3" fill="#fde4ea" stroke="#e0355f" stroke-width="1.3"/>
+    <text x="346" y="739">護欄（權威）</text>
+
+    <rect x="452" y="728" width="18" height="12" rx="3" fill="#eceef2" stroke="#6b7384" stroke-width="1.3"/>
+    <text x="478" y="739">repo 之外</text>
+
+    <line x1="580" y1="734" x2="616" y2="734" stroke="#12996b" stroke-width="2" marker-end="url(#a-flow)"/>
+    <text x="626" y="739">主流程</text>
+
+    <line x1="700" y1="734" x2="736" y2="734" stroke="#7b8494" stroke-width="1.5" marker-end="url(#a-ink)"/>
+    <text x="746" y="739">讀取／寫入</text>
+
+    <line x1="846" y1="734" x2="882" y2="734" stroke="#7a4ff0" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#a-check)"/>
+    <text x="892" y="739">比對</text>
+
+    <line x1="954" y1="734" x2="990" y2="734" stroke="#e0355f" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#a-guard)"/>
+    <text x="1000" y="739">規格的把關</text>
+  </g>
+  <text x="40" y="768" fill="#8a909c" font-size="11">外部相依只有 git 與 Node（hook 用 Node 執行）。Obsidian 等閱讀器不在這張圖裡，因為整套機制不依賴它。</text>
+</svg>

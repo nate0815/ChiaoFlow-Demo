@@ -1,0 +1,51 @@
+<svg viewBox="0 0 1200 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d"
+     font-family="'Noto Sans TC','Microsoft JhengHei','PingFang TC','Heiti TC',system-ui,sans-serif">
+  <title id="t">四份文件的分工：各答一個問題，同一件事只寫在一處</title>
+  <desc id="d">DESIGN 回答做什麼，是規格正本，改動需授權。PLAN 回答為什麼選這條路。TECH 回答路是怎麼鋪的。DEVLOG 與三個資料夾回答什麼時候發生了什麼，只追加不改寫。README 是進站點不是正本；ART 是選配的第五份。</desc>
+  <defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="rgba(45,49,66,0.05)" stroke-width="1"/></pattern><marker id="a-flow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#12996b"/></marker><marker id="a-ink" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#7b8494"/></marker><marker id="a-check" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#7a4ff0"/></marker><marker id="a-guard" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#e0355f"/></marker></defs>
+  <rect width="1200" height="580" fill="#fafaf8"/>
+  <rect width="1200" height="580" fill="url(#grid)"/>
+
+  <!-- 區域 -->
+
+  <!-- 連接線 -->
+
+  <!-- 節點與文字 -->
+  <rect x="60" y="60" width="520" height="160" rx="9" fill="#fde4ea" stroke="#e0355f" stroke-width="1.8"/>
+  <rect x="78" y="76" width="150" height="20" rx="4" fill="#fde4ea" stroke="#e0355f" stroke-width="1"/>
+  <text x="86" y="90" fill="#a3294a" font-size="11" font-weight="600">規格正本 · 改動需授權</text>
+  <text x="562" y="90" fill="#8a909c" font-size="11.5" font-weight="400" text-anchor="end">現在式 · 就地改成最新版</text>
+  <text x="320" y="134" fill="#23283a" font-size="17" font-weight="700" text-anchor="middle" font-family="ui-monospace,'Cascadia Mono',Consolas,'Noto Sans TC','Microsoft JhengHei',monospace">DESIGN.md</text>
+  <text x="320" y="166" fill="#23283a" font-size="18" font-weight="700" text-anchor="middle">做什麼</text>
+  <text x="320" y="194" fill="#a3294a" font-size="12.5" font-weight="400" text-anchor="middle">機制、規格、參數、結構</text>
+  <rect x="620" y="60" width="520" height="160" rx="9" fill="#ffffff" stroke="#2d3142" stroke-width="1.3"/>
+  <rect x="638" y="76" width="104" height="20" rx="4" fill="#eceef2" stroke="#6b7384" stroke-width="1"/>
+  <text x="646" y="90" fill="#5d6675" font-size="11" font-weight="600">就地改成最新版</text>
+  <text x="1122" y="90" fill="#8a909c" font-size="11.5" font-weight="400" text-anchor="end">現在式</text>
+  <text x="880" y="134" fill="#23283a" font-size="17" font-weight="700" text-anchor="middle" font-family="ui-monospace,'Cascadia Mono',Consolas,'Noto Sans TC','Microsoft JhengHei',monospace">PLAN.md</text>
+  <text x="880" y="166" fill="#23283a" font-size="18" font-weight="700" text-anchor="middle">為什麼選這條路</text>
+  <text x="880" y="194" fill="#5d6675" font-size="12.5" font-weight="400" text-anchor="middle">技術選型、架構決策、排程、風險、已排除的路線</text>
+  <rect x="60" y="250" width="520" height="160" rx="9" fill="#ffffff" stroke="#2d3142" stroke-width="1.3"/>
+  <rect x="78" y="266" width="80" height="20" rx="4" fill="#eceef2" stroke="#6b7384" stroke-width="1"/>
+  <text x="86" y="280" fill="#5d6675" font-size="11" font-weight="600">跟著程式改</text>
+  <text x="562" y="280" fill="#8a909c" font-size="11.5" font-weight="400" text-anchor="end">現在式</text>
+  <text x="320" y="324" fill="#23283a" font-size="17" font-weight="700" text-anchor="middle" font-family="ui-monospace,'Cascadia Mono',Consolas,'Noto Sans TC','Microsoft JhengHei',monospace">TECH.md</text>
+  <text x="320" y="356" fill="#23283a" font-size="18" font-weight="700" text-anchor="middle">路是怎麼鋪的</text>
+  <text x="320" y="384" fill="#5d6675" font-size="12.5" font-weight="400" text-anchor="middle">資料契約、模組介面、不變式、驗證方式</text>
+  <rect x="620" y="250" width="520" height="160" rx="9" fill="#eceef2" stroke="#6b7384" stroke-width="1.3"/>
+  <rect x="638" y="266" width="92" height="20" rx="4" fill="#eceef2" stroke="#6b7384" stroke-width="1"/>
+  <text x="646" y="280" fill="#5d6675" font-size="11" font-weight="600">只追加不改寫</text>
+  <text x="1122" y="280" fill="#8a909c" font-size="11.5" font-weight="400" text-anchor="end">過去式</text>
+  <text x="880" y="324" fill="#23283a" font-size="14.5" font-weight="700" text-anchor="middle" font-family="ui-monospace,'Cascadia Mono',Consolas,'Noto Sans TC','Microsoft JhengHei',monospace">DEVLOG.md ＋ devlog/ decisions/ gotchas/</text>
+  <text x="880" y="356" fill="#23283a" font-size="18" font-weight="700" text-anchor="middle">什麼時候發生了什麼</text>
+  <text x="880" y="384" fill="#5d6675" font-size="12.5" font-weight="400" text-anchor="middle">進度、決策時點與理由、踩坑。一則一檔</text>
+  <line x1="60" y1="440" x2="1140" y2="440" stroke="rgba(45,49,66,0.12)" stroke-width="1"/>
+  <text x="600" y="472" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">同一件事不寫在兩處 —— 找不到就換一份看，不要在第二份補一份</text>
+  <rect x="60" y="498" width="82" height="20" rx="4" fill="#eceef2" stroke="#6b7384" stroke-width="1"/>
+  <text x="68" y="512" fill="#5d6675" font-size="11" font-weight="600">README.md</text>
+  <text x="152.31040000000002" y="512" fill="#5d6675" font-size="12.5" font-weight="400" text-anchor="start">對外的進站點，不是正本。只放指標，深度內容留在 doc/</text>
+  <rect x="620" y="498" width="61" height="20" rx="4" fill="#ece6fd" stroke="#7a4ff0" stroke-width="1"/>
+  <text x="628" y="512" fill="#5a45a0" font-size="11" font-weight="600">ART.md</text>
+  <text x="690.8736" y="512" fill="#5d6675" font-size="12.5" font-weight="400" text-anchor="start">選配的第五份正本。有自產素材要量產的專案才開</text>
+  <text x="40" y="552" fill="#8a909c" font-size="11.5">四份都放在專案的 doc/ 底下。DEVLOG.md 本身只留規則、基本資料、技術評估、待決問題；時序紀錄、決策、踩坑各自拆成一則一檔。</text>
+</svg>

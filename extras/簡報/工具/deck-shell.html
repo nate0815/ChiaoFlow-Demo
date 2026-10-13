@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChiaoFlow —— 工具包導覽</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===========================================
+   圖紙 —— 這份簡報的設計系統
+   色票直接取自簡報裡那七張圖（diagram-design 的預設皮膚），
+   所以圖看起來是內建的，不是貼上去的。
+   改這一段就能換掉整份的樣子。
+   =========================================== */
+:root {
+    /* 色票 —— 與圖同一組值 */
+    --paper:    #f5f5f5;   /* white-smoke，紙面 */
+    --paper-2:  #ffffff;   /* 卡片與圖框 */
+    --ink:      #2d3142;   /* jet-black，主要文字 */
+    --muted:    #4f5d75;   /* blue-slate，次要文字 */
+    --soft:     #7a8399;   /* 更淡的註記 */
+    --accent:   #eb6c36;   /* atomic-tangerine，唯一重音色 */
+    --accent-t: rgba(235,108,54,0.08);
+    --rule:     rgba(45,49,66,0.12);
+    --rule-2:   rgba(45,49,66,0.06);
+    --grid:     rgba(45,49,66,0.045);
+    --stage-bg: #e6e6e6;
+    --slide-bg: var(--paper);
+
+    /* 字族 */
+    --serif: 'Instrument Serif', serif;
+    --sans:  'Geist','Noto Sans TC','Microsoft JhengHei',sans-serif;
+    --cjk:   'Noto Sans TC','Microsoft JhengHei',sans-serif;
+    --mono:  'Geist Mono', ui-monospace, monospace;
+
+    /* 級數（寫死在 1920×1080 的舞台尺度上） */
+    --size-cover: 224px;
+    --size-claim: 58px;
+    --size-point: 30px;
+    --size-tag:   25px;
+    --size-mono:  22px;
+
+    /* 間距 */
+    --pad-x: 132px;
+    --pad-t: 92px;
+    --pad-b: 76px;
+
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --dur:  0.7s;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ===========================================
+   FIXED 16:9 STAGE: MANDATORY BASE STYLES
+   Include this ENTIRE file in every presentation.
+   Slides are authored at 1920×1080 and scaled as a whole.
+   =========================================== */
+
+/* 1. Lock the browser viewport */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+
+/* 2. Full-window deck viewport */
+.deck-viewport {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+
+/* 3. Fixed 16:9 design canvas.
+   JavaScript sets transform: translate(...) scale(...). */
+.deck-stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    transform-origin: 0 0;
+    background: var(--slide-bg, #fff);
+}
+
+/* 4. Slides stack inside the fixed stage.
+   Content must be laid out at 1920×1080, not reflowed per device. */
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--slide-bg, #fff);
+}
+
+.slide.active,
+.slide.visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+/* 5. Keep media inside authored slide bounds */
+img,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 6. Presentation chrome stays outside the slide design system */
+.deck-controls {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+/* 7. Print one fixed-size slide per page */
+@media print {
+    html,
+    body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+    }
+
+    .deck-viewport {
+        position: static;
+        overflow: visible;
+        background: #fff;
+    }
+
+    .deck-stage {
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none !important;
+        background: none;
+    }
+
+    .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+    }
+
+    .slide:last-child {
+        break-after: auto;
+        page-break-after: auto;
+    }
+
+    .deck-controls {
+        display: none !important;
+    }
+}
+
+/* 8. Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+}
+
+/* ===========================================
+   共用底層：製圖網格 ＋ 四角定位十字
+   每一頁都有，讓 23 頁看起來是同一份文件
+   =========================================== */
+.slide {
+    background: var(--paper);
+    padding: var(--pad-t) var(--pad-x) var(--pad-b);
+    display: flex;
+    flex-direction: column;
+}
+.slide::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background:
+        repeating-linear-gradient(90deg,  var(--grid) 0 1px, transparent 1px 48px),
+        repeating-linear-gradient(180deg, var(--grid) 0 1px, transparent 1px 48px);
+}
+.reg { position: absolute; width: 30px; height: 30px; opacity: .45; }
+.reg::before, .reg::after { content: ''; position: absolute; background: var(--soft); }
+.reg::before { left: 0; right: 0; top: 50%; height: 1px; }
+.reg::after  { top: 0; bottom: 0; left: 50%; width: 1px; }
+.reg.tl { left: 44px;  top: 44px; }
+.reg.tr { right: 44px; top: 44px; }
+.reg.bl { left: 44px;  bottom: 44px; }
+.reg.br { right: 44px; bottom: 44px; }
+
+/* ===========================================
+   ⭐ 區段標記 —— 讀者要能隨時知道自己在哪一段
+   Core 是唯一主推的，所以給它橘紅 ＋ 左緣一條實心邊
+   =========================================== */
+.slide .eyebrow {
+    font-family: var(--cjk); font-weight: 500; font-size: var(--size-tag);
+    letter-spacing: 0; color: var(--soft);
+}
+.slide.sec-core   .eyebrow { color: var(--accent); font-weight: 700; }
+.slide.sec-extras .eyebrow,
+.slide.sec-skill  .eyebrow,
+.slide.sec-why    .eyebrow { color: var(--muted); }
+
+/* Core 的左緣識別條 —— 翻到哪一段，餘光就看得出來 */
+.slide.sec-core::after {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 12px;
+    background: var(--accent); opacity: .9;
+}
+.slide.sec-extras::after, .slide.sec-skill::after, .slide.sec-why::after {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 12px;
+    background: var(--rule); 
+}
+
+/* ===========================================
+   檔頭與頁腳
+   =========================================== */
+.masthead {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-bottom: 20px; margin-bottom: 40px;
+    border-bottom: 1px solid var(--rule);
+    position: relative; z-index: 2;
+}
+.folio { font-family: var(--mono); font-weight: 500; font-size: var(--size-mono);
+         letter-spacing: .22em; color: var(--muted); }
+
+.ruler { margin-top: auto; position: relative; z-index: 2; padding-top: 30px; }
+.ticks { height: 18px; opacity: .40;
+    background: repeating-linear-gradient(90deg, var(--soft) 0 1px, transparent 1px 48px); }
+.ticks.major { height: 28px; margin-top: -28px; opacity: .75;
+    background: repeating-linear-gradient(90deg, var(--ink) 0 1px, transparent 1px 240px); }
+.footline {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-top: 16px; margin-top: 12px; border-top: 1px solid var(--rule);
+}
+.footline span { font-family: var(--mono); font-weight: 500; font-size: 20px;
+    letter-spacing: .18em; color: var(--muted); }
+.footline .tag { font-family: var(--cjk); letter-spacing: 0; color: var(--soft); font-size: 21px; }
+
+/* ===========================================
+   內容
+   =========================================== */
+.body { flex: 1; display: flex; flex-direction: column; position: relative; z-index: 2; min-height: 0; }
+
+h2.claim {
+    font-family: var(--cjk); font-weight: 700;
+    font-size: var(--size-claim); line-height: 1.34; letter-spacing: 0;
+    color: var(--ink); margin: 0 0 26px; max-width: 1560px;
+}
+.underline {
+    position: relative; height: 4px; width: 420px; background: var(--accent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .8s .3s var(--ease);
+    margin-bottom: 44px;
+}
+.slide.visible .underline { transform: scaleX(1); }
+.underline::after {
+    content: ''; position: absolute; right: -2px; top: -8px;
+    width: 20px; height: 20px; background: var(--accent);
+}
+
+.cols { display: flex; gap: 64px; flex: 1; min-height: 0; }
+.col-text { flex: 1; min-width: 0; }
+.slide.has-img .col-text { flex: 0 0 46%; }
+.col-img {
+    flex: 1; display: flex; align-items: flex-start; justify-content: center;
+    min-width: 0; min-height: 0; margin: 0;
+}
+/* ⚠️ max-height 不能寫死 px —— 主張折成兩行時可用高度會變少，
+   寫死的話圖會壓到底部的刻度尺。用 100% 讓它跟著欄高縮。 */
+.col-img img {
+    max-width: 100%; max-height: 100%; object-fit: contain;
+    border: 1px solid var(--rule); border-radius: 6px; background: var(--paper-2);
+}
+
+.points { list-style: none; display: flex; flex-direction: column; gap: 26px; }
+.points li { display: flex; align-items: baseline; gap: 22px; }
+.points .n {
+    font-family: var(--mono); font-weight: 700; font-size: 21px;
+    letter-spacing: .12em; color: var(--accent); flex: 0 0 40px;
+}
+.points .t {
+    font-family: var(--cjk); font-weight: 400; font-size: var(--size-point);
+    line-height: 1.5; letter-spacing: 0; color: var(--ink);
+}
+
+/* 整頁只有圖 —— 細節多的圖需要整個寬度，擠在半欄裡節點文字會讀不了 */
+.slide.figure .col-text { display: none; }
+.slide.figure .cols { gap: 0; }
+.slide.figure .col-img { flex: 1; align-items: center; }
+.slide.figure .col-img img { max-height: 100%; max-width: 100%; }
+.slide.figure h2.claim { font-size: 46px; max-width: 1560px; margin-bottom: 20px; }
+.slide.figure .underline { margin-bottom: 28px; }
+
+/* 沒有條列的頁 —— 主張自己撐起整頁 */
+.slide.statement h2.claim { font-size: 84px; line-height: 1.3; max-width: 1620px; }
+.slide.statement .cols { align-items: flex-start; }
+
+/* ===========================================
+   封面
+   =========================================== */
+.slide.cover .hero { margin: auto 0; }
+.slide.cover h1 {
+    font-family: var(--sans); font-weight: 600;
+    font-size: var(--size-cover); line-height: 1; letter-spacing: -.03em;
+    color: var(--ink); margin: 0 0 12px;
+}
+.slide.cover h1 .k { color: var(--accent); }
+.slide.cover .underline { width: 520px; margin-bottom: 44px; }
+.slide.cover .tagline {
+    font-family: var(--cjk); font-weight: 400; font-size: 50px;
+    line-height: 1.58; letter-spacing: 0; color: var(--muted);
+    margin: 0 0 52px; max-width: 1300px;
+}
+.slide.cover .statement {
+    font-family: var(--cjk); font-weight: 500; font-size: 37px;
+    line-height: 1.62; letter-spacing: 0; color: var(--ink);
+    margin: 0; max-width: 1380px; padding-left: 32px;
+    border-left: 3px solid var(--accent);
+}
+.slide.cover::after { display: none; }
+
+/* ===========================================
+   進場動畫 —— 由 .slide.visible 觸發，每次翻頁重跑
+   =========================================== */
+.reveal {
+    opacity: 0; transform: translateY(26px);
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.slide.visible .reveal { opacity: 1; transform: translateY(0); }
+.slide.visible .r1 { transition-delay: .06s; }
+.slide.visible .r2 { transition-delay: .18s; }
+.slide.visible .r3 { transition-delay: .30s; }
+.slide.visible .r4 { transition-delay: .42s; }
+.slide.visible .r5 { transition-delay: .54s; }
+.slide.visible .r6 { transition-delay: .66s; }
+
+/* ===========================================
+   舞台外的操作介面（不屬於投影片的設計系統）
+   =========================================== */
+.deck-controls {
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--mono); font-size: 15px; letter-spacing: .18em;
+    color: var(--muted);
+    background: rgba(245,245,245,.92); border: 1px solid var(--rule);
+    padding: 9px 18px; backdrop-filter: blur(6px); border-radius: 4px;
+}
+.deck-controls .bar { width: 168px; height: 2px; background: var(--rule); }
+.deck-controls .bar i { display: block; height: 2px; background: var(--accent);
+    transition: width .4s var(--ease); }
+.deck-controls button {
+    all: unset; cursor: pointer; padding: 2px 8px;
+    font-family: var(--mono); font-size: 15px; letter-spacing: .14em; color: var(--muted);
+}
+.deck-controls button:hover { color: var(--accent); }
+
+.notes {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 1200;
+    background: rgba(245,245,245,.97); border-top: 2px solid var(--accent);
+    padding: 22px 34px 26px; transform: translateY(102%);
+    transition: transform .4s var(--ease); backdrop-filter: blur(8px);
+}
+.notes.open { transform: translateY(0); }
+.notes .hd { font-family: var(--mono); font-size: 14px; letter-spacing: .2em;
+    color: var(--accent); margin-bottom: 10px; }
+.notes p { font-family: var(--cjk); font-size: 21px; line-height: 1.65;
+    letter-spacing: 0; color: var(--ink); max-width: 1400px; }
+
+/* 行內編輯 —— 不能用 CSS 相鄰選擇器做 hover 顯示，
+   pointer-events: none 會把 hover 鏈斷掉；一律用 JS ＋ 400ms 緩衝 */
+.edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+.edit-toggle {
+    position: fixed; top: 16px; left: 16px; z-index: 10001; all: unset; cursor: pointer;
+    width: 46px; height: 46px; line-height: 46px; text-align: center;
+    background: var(--paper-2); border: 1px solid var(--accent);
+    color: var(--ink); font-size: 20px; border-radius: 4px;
+    opacity: 0; pointer-events: none; transition: opacity .3s ease;
+}
+.edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+.edit-toggle.active { background: var(--accent); color: var(--paper); }
+body.editing [contenteditable="true"] { outline: 1px dashed var(--accent); outline-offset: 6px; cursor: text; }
+.toast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-140%);
+    z-index: 10002; background: var(--accent); color: var(--paper);
+    font-family: var(--mono); font-size: 15px; letter-spacing: .14em;
+    padding: 10px 20px; border-radius: 4px; transition: transform .34s var(--ease);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="edit-hotzone"></div>
+<button class="edit-toggle" id="editToggle" title="編輯模式（E）">&#9999;</button>
+<div class="toast" id="toast"></div>
+
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+<!--__SLIDES__-->
+    </main>
+</div>
+
+<div class="deck-controls">
+    <button id="btnPrev" title="上一頁">&larr;</button>
+    <span class="bar"><i id="progress"></i></span>
+    <span id="counter">01 / 23</span>
+    <button id="btnNotes" title="講者備忘（N）">N</button>
+    <button id="btnNext" title="下一頁">&rarr;</button>
+</div>
+
+<div class="notes" id="notes">
+    <div class="hd">SPEAKER NOTES</div>
+    <p id="notesText"></p>
+</div>
+
+<script>
+/* ===========================================
+   投影片控制器
+   固定 1920×1080 舞台，整體縮放；不隨裝置重排內容
+   =========================================== */
+class SlidePresentation {
+    constructor() {
+        this.slides    = Array.from(document.querySelectorAll('.slide'));
+        this.stage     = document.getElementById('deckStage');
+        this.counter   = document.getElementById('counter');
+        this.progress  = document.getElementById('progress');
+        this.notes     = document.getElementById('notes');
+        this.notesText = document.getElementById('notesText');
+        this.current   = 0;
+        this.setupStageScale();
+        this.setupKeyboardNav();
+        this.setupTouchNav();
+        this.setupWheelNav();
+        this.setupButtons();
+        this.setupHashNav();
+        this.showSlide(this.fromHash());
+    }
+    /* URL 錨點：#9 直接開第 9 頁，也讓「傳連結給某一頁」變得可能 */
+    fromHash() {
+        const n = parseInt((location.hash || '').replace('#', ''), 10);
+        return Number.isFinite(n) && n >= 1 ? n - 1 : 0;
+    }
+    setupHashNav() {
+        window.addEventListener('hashchange', () => {
+            const i = this.fromHash();
+            if (i !== this.current) this.showSlide(i);
+        });
+    }
+    setupStageScale() {
+        const scale = () => {
+            const f = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+            const x = (window.innerWidth - 1920 * f) / 2;
+            const y = (window.innerHeight - 1080 * f) / 2;
+            this.stage.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + f + ')';
+        };
+        scale();
+        window.addEventListener('resize', scale);
+    }
+    setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+            if (e.target.getAttribute && e.target.getAttribute('contenteditable')) return;
+            switch (e.key) {
+                case 'ArrowRight': case 'ArrowDown': case ' ': case 'PageDown':
+                    e.preventDefault(); this.next(); break;
+                case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+                    e.preventDefault(); this.prev(); break;
+                case 'Home': e.preventDefault(); this.showSlide(0); break;
+                case 'End':  e.preventDefault(); this.showSlide(this.slides.length - 1); break;
+                case 'n': case 'N': this.toggleNotes(); break;
+            }
+        });
+    }
+    setupTouchNav() {
+        let x0 = null;
+        document.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+        document.addEventListener('touchend', (e) => {
+            if (x0 === null) return;
+            const dx = e.changedTouches[0].clientX - x0;
+            if (Math.abs(dx) > 56) { if (dx < 0) { this.next(); } else { this.prev(); } }
+            x0 = null;
+        }, { passive: true });
+    }
+    setupWheelNav() {
+        let lock = false;
+        window.addEventListener('wheel', (e) => {
+            if (lock || Math.abs(e.deltaY) < 24) return;
+            lock = true;
+            if (e.deltaY > 0) { this.next(); } else { this.prev(); }
+            setTimeout(() => { lock = false; }, 620);
+        }, { passive: true });
+    }
+    setupButtons() {
+        document.getElementById('btnPrev').addEventListener('click', () => this.prev());
+        document.getElementById('btnNext').addEventListener('click', () => this.next());
+        document.getElementById('btnNotes').addEventListener('click', () => this.toggleNotes());
+    }
+    next() { this.showSlide(this.current + 1); }
+    prev() { this.showSlide(this.current - 1); }
+    toggleNotes() { this.notes.classList.toggle('open'); }
+    showSlide(index) {
+        this.current = Math.max(0, Math.min(index, this.slides.length - 1));
+        this.slides.forEach((s, i) => {
+            const on = (i === this.current);
+            s.classList.toggle('active', on);
+            s.classList.toggle('visible', on);
+        });
+        const n = String(this.current + 1).padStart(2, '0');
+        const t = String(this.slides.length).padStart(2, '0');
+        this.counter.textContent = n + ' / ' + t;
+        this.progress.style.width = (((this.current + 1) / this.slides.length) * 100) + '%';
+        this.notesText.textContent = this.slides[this.current].dataset.notes || '';
+        const want = '#' + (this.current + 1);
+        if (location.hash !== want) history.replaceState(null, '', want);
+    }
+}
+
+/* ===========================================
+   行內編輯：滑到左上角、按 E，或點左上角熱區
+   改動自動存到 localStorage；Ctrl+S 匯出成新的 HTML
+   ⚠️ 不能用 CSS 相鄰選擇器做 hover 顯示 ——
+      pointer-events: none 會把 hover 鏈斷掉，一律用 JS ＋ 400ms 緩衝
+   =========================================== */
+class InlineEditor {
+    constructor() {
+        this.isActive = false;
+        this.toggle = document.getElementById('editToggle');
+        this.toastEl = document.getElementById('toast');
+        this.targets = Array.from(document.querySelectorAll(
+            '.slide h1, .slide h2.claim, .slide .tagline, .slide .statement, ' +
+            '.slide .points .t, .slide .eyebrow, .slide .footline .tag'));
+        this.targets.forEach((el, i) => { el.dataset.editId = 'e' + i; });
+        this.onInput = this.onInput.bind(this);
+        this.restore();
+        this.bindHotzone();
+        this.bindKeys();
+        this.toggle.addEventListener('click', () => this.toggleEditMode());
+    }
+    bindHotzone() {
+        const hz = document.querySelector('.edit-hotzone');
+        let hideTimeout = null;
+        const show = () => { clearTimeout(hideTimeout); this.toggle.classList.add('show'); };
+        const hide = () => { hideTimeout = setTimeout(() => {
+            if (!this.isActive) this.toggle.classList.remove('show'); }, 400); };
+        hz.addEventListener('mouseenter', show);
+        hz.addEventListener('mouseleave', hide);
+        this.toggle.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+        this.toggle.addEventListener('mouseleave', hide);
+        hz.addEventListener('click', () => this.toggleEditMode());
+    }
+    bindKeys() {
+        document.addEventListener('keydown', (e) => {
+            const editing = e.target.getAttribute && e.target.getAttribute('contenteditable');
+            if ((e.key === 'e' || e.key === 'E') && !editing) { this.toggleEditMode(); return; }
+            if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault(); this.exportFile();
+            }
+        });
+    }
+    toggleEditMode() {
+        this.isActive = !this.isActive;
+        document.body.classList.toggle('editing', this.isActive);
+        this.toggle.classList.toggle('active', this.isActive);
+        this.toggle.classList.add('show');
+        this.targets.forEach((el) => {
+            if (this.isActive) {
+                el.setAttribute('contenteditable', 'true');
+                el.addEventListener('input', this.onInput);
+            } else {
+                el.removeAttribute('contenteditable');
+                el.removeEventListener('input', this.onInput);
+            }
+        });
+        this.say(this.isActive ? '編輯模式開啟 —— Ctrl+S 匯出' : '編輯模式關閉');
+    }
+    onInput() {
+        const data = {};
+        this.targets.forEach((el) => { data[el.dataset.editId] = el.innerHTML; });
+        try { localStorage.setItem('chiaoflow-deck-edits', JSON.stringify(data)); } catch (err) { /* 無痕模式會擋 */ }
+    }
+    restore() {
+        let data = null;
+        try { data = JSON.parse(localStorage.getItem('chiaoflow-deck-edits') || 'null'); } catch (err) { data = null; }
+        if (!data) return;
+        this.targets.forEach((el) => {
+            if (data[el.dataset.editId] !== undefined) el.innerHTML = data[el.dataset.editId];
+        });
+    }
+    exportFile() {
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll('[contenteditable]').forEach((el) => el.removeAttribute('contenteditable'));
+        clone.querySelectorAll('.slide').forEach((el) => el.classList.remove('active', 'visible'));
+        const doctype = '<!DOCTYPE html>' + String.fromCharCode(10);
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([doctype + clone.outerHTML], { type: 'text/html' }));
+        a.download = 'chiaoflow-deck.html';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        this.say('已匯出 chiaoflow-deck.html');
+    }
+    say(msg) {
+        this.toastEl.textContent = msg;
+        this.toastEl.classList.add('show');
+        clearTimeout(this._t);
+        this._t = setTimeout(() => this.toastEl.classList.remove('show'), 1900);
+    }
+}
+
+const deck = new SlidePresentation();
+const editor = new InlineEditor();
+</script>
+</body>
+</html>

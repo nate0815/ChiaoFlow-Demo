@@ -1,0 +1,49 @@
+<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d"
+     font-family="'Noto Sans TC','Microsoft JhengHei','PingFang TC','Heiti TC',system-ui,sans-serif">
+  <title id="t">規格正本的護欄：兩種工具的擋法刻意不同</title>
+  <desc id="d">Claude Code：AI 想改 DESIGN 時跳確認框，人當場點頭後放行，不留痕跡。Codex CLI：PreToolUse hook 直接擋下，要人建立 doc/.design-unlock 解鎖檔後重試才放行，改完刪掉解鎖檔。</desc>
+  <defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="rgba(45,49,66,0.05)" stroke-width="1"/></pattern><marker id="a-flow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#12996b"/></marker><marker id="a-ink" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#7b8494"/></marker><marker id="a-check" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#7a4ff0"/></marker><marker id="a-guard" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#e0355f"/></marker></defs>
+  <rect width="1200" height="600" fill="#fafaf8"/>
+  <rect width="1200" height="600" fill="url(#grid)"/>
+
+  <!-- 區域 -->
+  <rect x="40" y="70" width="540" height="440" rx="10" fill="rgba(240,150,40,0.045)" stroke="#e0963a" stroke-width="1.2" stroke-dasharray="7,5"/>
+  <rect x="54" y="61" width="93" height="18" rx="3" fill="#fafaf8"/>
+  <text x="62" y="75" fill="#b86a12" font-size="12" font-weight="600">Claude Code</text>
+  <rect x="620" y="70" width="540" height="440" rx="10" fill="rgba(240,150,40,0.045)" stroke="#e0963a" stroke-width="1.2" stroke-dasharray="7,5"/>
+  <rect x="634" y="61" width="79" height="18" rx="3" fill="#fafaf8"/>
+  <text x="642" y="75" fill="#b86a12" font-size="12" font-weight="600">Codex CLI</text>
+
+  <!-- 連接線 -->
+  <path d="M310,164 V204" fill="none" stroke="#e0355f" stroke-width="1.5" marker-end="url(#a-guard)"/>
+  <path d="M310,268 V308" fill="none" stroke="#e0355f" stroke-width="1.5" marker-end="url(#a-guard)"/>
+  <path d="M310,372 V412" fill="none" stroke="#12996b" stroke-width="2" marker-end="url(#a-flow)"/>
+  <path d="M890,164 V204" fill="none" stroke="#e0355f" stroke-width="1.5" marker-end="url(#a-guard)"/>
+  <path d="M890,268 V308" fill="none" stroke="#e0355f" stroke-width="1.5" marker-end="url(#a-guard)"/>
+  <path d="M890,372 V412" fill="none" stroke="#12996b" stroke-width="2" marker-end="url(#a-flow)"/>
+
+  <!-- 節點與文字 -->
+  <rect x="110" y="100" width="400" height="64" rx="7" fill="#dcf5ea" stroke="#12996b" stroke-width="1.5"/>
+  <text x="310.0" y="138" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">AI 想改 doc/DESIGN.md</text>
+  <rect x="110" y="204" width="400" height="64" rx="7" fill="#fde4ea" stroke="#e0355f" stroke-width="1.5"/>
+  <text x="310.0" y="233" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">跳確認框</text>
+  <text x="310.0" y="254" fill="#a3294a" font-size="12" text-anchor="middle">permissions.ask，任何權限模式都繞不過</text>
+  <rect x="110" y="308" width="400" height="64" rx="7" fill="#eceef2" stroke="#6b7384" stroke-width="1.5"/>
+  <text x="310.0" y="346" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">人當場點頭</text>
+  <rect x="110" y="412" width="400" height="64" rx="7" fill="#ece6fd" stroke="#7a4ff0" stroke-width="1.5"/>
+  <text x="310.0" y="441" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">放行這一次的修改</text>
+  <text x="310.0" y="462" fill="#5a45a0" font-size="12" text-anchor="middle">「人點頭」沒有留下任何痕跡</text>
+  <rect x="690" y="100" width="400" height="64" rx="7" fill="#dcf5ea" stroke="#12996b" stroke-width="1.5"/>
+  <text x="890.0" y="138" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">AI 想改 doc/DESIGN.md</text>
+  <rect x="690" y="204" width="400" height="64" rx="7" fill="#fde4ea" stroke="#e0355f" stroke-width="1.5"/>
+  <text x="890.0" y="233" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">hook 直接擋下</text>
+  <text x="890.0" y="254" fill="#a3294a" font-size="12" text-anchor="middle">Codex 的 ask 寫了不會報錯，只會安靜地不生效</text>
+  <rect x="690" y="308" width="400" height="64" rx="7" fill="#eceef2" stroke="#6b7384" stroke-width="1.5"/>
+  <text x="890.0" y="337" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">人建立 doc/.design-unlock</text>
+  <text x="890.0" y="358" fill="#5d6675" font-size="12" text-anchor="middle">空檔即可。AI 自己建會被擋</text>
+  <rect x="690" y="412" width="400" height="64" rx="7" fill="#ece6fd" stroke="#7a4ff0" stroke-width="1.5"/>
+  <text x="890.0" y="441" fill="#23283a" font-size="15" font-weight="700" text-anchor="middle">重試放行，改完刪掉解鎖檔</text>
+  <text x="890.0" y="462" fill="#5a45a0" font-size="12" text-anchor="middle">「人點頭」變成一個看得見的動作</text>
+  <text x="40" y="548" fill="#8a909c" font-size="11.5">這一層擋的是「忘記」與「順手」，不是惡意。有 shell 與寫入權限的 agent 理論上仍繞得過去。</text>
+  <text x="40" y="570" fill="#8a909c" font-size="11.5">解鎖檔必須留在 .gitignore：一旦被 commit，護欄就對所有人永久失效，而且不會有任何症狀。</text>
+</svg>
