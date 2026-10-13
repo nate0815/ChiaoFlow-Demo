@@ -1,12 +1,19 @@
 # ChiaoFlow —— 我的文件工作流程
 
+**繁體中文** | [English](README.en.md)
+
+> **狀態：供參考的快照，不再維護。**
+> 這個 repo 是作品集的參考資料，內容是從我自己使用的 private repo 整理出來的快照，
+> 所以沒有開發歷史，之後也不會更新。Issue 與 Pull Request 不會有人處理。
+
 **讓一件事被寫下來之後，還能被別人看懂。**
 
 > **In English:** ChiaoFlow is a small documentation workflow for projects built together with
 > AI coding agents (Claude Code and Codex CLI). Four documents with strictly separate jobs,
 > plus a check that runs before the agent finishes a turn, keep the docs from falling behind
 > the code and keep the spec from being quietly rewritten to match the implementation.
-> Setup takes about 20 minutes per project. The docs themselves are written in Traditional Chinese.
+> Setup takes about 20 minutes per project. The docs themselves are written in Traditional Chinese;
+> an English overview is in [README.en.md](README.en.md).
 
 ![ChiaoFlow Core 裝起來之後：三層裝置圍著四份文件，外面只有 git 與 Node](core/圖/三層裝置.svg)
 
